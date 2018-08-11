@@ -2,7 +2,7 @@
 
 An ECMAScript proposal to create generator blocks. Essentially placing a scope after a generator would execute the generator compactly. This would be an alternative of using ```for...of``` syntax.
 
-# Syntax
+## Syntax
 
 ```js
 function* Range(start, end)
@@ -30,7 +30,7 @@ Output:
 3
 ```
 
-# Return Syntax
+## Return Syntax
 
 ```js
 function* gen()
@@ -58,7 +58,7 @@ Output:
 10
 ```
 
-# Filter example
+## Filter and Map
 
 ```js
 const a = [1, 2, 3, 4, 5];
@@ -90,4 +90,28 @@ const b = a.filter() { return value < 3; }.map() { return value * 2; }; // [2, 4
 const c = a.filter{ return value < 3; }.map{ return value * 2; }; // [2, 4]
 ```
 
-##
+## Filter + Map Combined
+
+```js
+const a = [1, 2, 3, 4, 5];
+a.filterMap = function*(variableName)
+{
+	var values = [];
+	this.forEach(value =>
+	{
+		if (yield { [variableName ? variableName : 'value']: value } != undefined)
+		{
+			values.push(value);
+		}
+	});
+	return values;
+};
+
+const b = a.filterMap
+{
+	if (value < 3)
+	{
+		return value * 2;
+	}
+}; // [2, 4]
+```
